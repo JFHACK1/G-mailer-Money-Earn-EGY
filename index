@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G-mailer Money Earn EGY - User</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4a6bff;
+            --secondary-color: #f8f9fa;
+            --accent-color: #ff6b6b;
+            --dark-color: #343a40;
+            --light-color: #ffffff;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .sidebar {
+            background-color: var(--light-color);
+            min-height: 100vh;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 250px;
+        }
+        
+        .main-content {
+            margin-right: 250px;
+            padding: 20px;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-header {
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 10px 10px 0 0 !important;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border: none;
+            padding: 8px 20px;
+        }
+        
+        .btn-primary:hover {
+            background-color: #3a56d4;
+        }
+        
+        .stat-card {
+            border-right: 4px solid var(--primary-color);
+        }
+        
+        .ticket-card {
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .ticket-card:hover {
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .ticket-opened {
+            background-color: #f8f9fa;
+            border-right: 4px solid var(--accent-color);
+        }
+        
+        .ticket-closed {
+            opacity: 0.7;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .telegram-btn {
+            background-color: #0088cc;
+            color: white;
+        }
+        
+        .telegram-btn:hover {
+            background-color: #0077b5;
+            color: white;
+        }
+        
+        /* RTL specific styles */
+        .form-control, .form-select, .input-group-text {
+            text-align: right;
+        }
+        
+        .dropdown-menu {
+            text-align: right;
+        }
+        
+        .table th {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">G-mailer Money Earn EGY - User</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="logoutLink">تسجيل الخروج</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- User Section -->
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 sidebar p-0">
+                <div class="p-3">
+                    <div class="text-center mb-4">
+                        <div class="user-avatar mx-auto mb-2" id="userAvatar">U</div>
+                        <h6 id="userName">مستخدم</h6>
+                        <small class="text-muted" id="userEmail">user@example.com</small>
+                    </div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" id="userDashboardLink">
+                                <i class="fas fa-tachometer-alt me-2"></i> الإحصائيات
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="userTicketsLink">
+                                <i class="fas fa-ticket-alt me-2"></i> تذاكري
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="userProfileLink">
+                                <i class="fas fa-user me-2"></i> الملف الشخصي
+                            </a>
+                        </li>
+                        <li class="nav-item mt-3">
+                            <a class="nav-link telegram-btn" href="https://t.me/pic_G_mail" target="_blank">
+                                <i class="fab fa-telegram me-2"></i> مجموعة التليجرام
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 main-content">
+                <!-- User Dashboard -->
+                <div id="userDashboard">
+                    <h3 class="mb-4">الإحصائيات</h3>
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            <div class="card stat-card">
+                                <div class="card-body">
+                                    <h5 class="card-title">التذاكر المخصصة</h5>
+                                    <h2 class="card-text" id="userAssignedTickets">0</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card stat-card">
+                                <div class="card-body">
+                                    <h5 class="card-title">التذاكر المكتملة</h5>
+                                    <h2 class="card-text" id="userCompletedTickets">0</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card stat-card">
+                                <div class="card-body">
+                                    <h5 class="card-title">الأرباح</h5>
+                                    <h2 class="card-text" id="userEarnings">$0.00</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>التذاكر المتاحة</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>العنوان</th>
+                                            <th>الحالة</th>
+                                            <th>تاريخ الإنشاء</th>
+                                            <th>الإجراءات</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="availableTicketsTable">
+                                        <!-- Will be populated by JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- User Tickets -->
+                <div id="userTickets" style="display:none;">
+                    <h3 class="mb-4">تذاكري</h3>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>العنوان</th>
+                                            <th>الحالة</th>
+                                            <th>تاريخ التخصيص</th>
+                                            <th>تاريخ الإكمال</th>
+                                            <th>الإجراءات</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="userTicketsTable">
+                                        <!-- Will be populated by JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ticket Details Modal -->
+                <div class="modal fade" id="ticketDetailsModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="ticketModalTitle">تفاصيل التذكرة</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h6>معلومات الحساب</h6>
+                                        <div class="mb-3">
+                                            <p><strong>First name:</strong> <span id="modalFirstName">-</span></p>
+                                            <p><strong>Last name:</strong> <span id="modalLastName">✖️</span></p>
+                                            <p><strong>Email:</strong> <span id="modalEmail">-</span></p>
+                                            <p><strong>Password:</strong> <span id="modalPassword">-</span></p>
+                                            <p><strong>Recovery email:</strong> <span id="modalRecoveryEmail">-</span></p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6>معلومات التذكرة</h6>
+                                        <div class="mb-3">
+                                            <p><strong>الحالة:</strong> <span id="modalStatus" class="badge bg-primary">مفتوحة</span></p>
+                                            <p><strong>مخصصة ل:</strong> <span id="modalAssignedTo">-</span></p>
+                                            <p><strong>تاريخ الإنشاء:</strong> <span id="modalCreatedAt">-</span></p>
+                                            <p><strong>تاريخ الإكمال:</strong> <span id="modalCompletedAt">-</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <h6>ملاحظات إضافية</h6>
+                                    <div id="modalNotes" class="p-2 bg-light rounded">
+                                        لا توجد ملاحظات إضافية.
+                                    </div>
+                                </div>
+                                <div id="screenshotSection" class="mb-3" style="display:none;">
+                                    <h6>لقطة الشاشة</h6>
+                                    <div class="input-group mb-3">
+                                        <input type="file" class="form-control" id="screenshotUpload" accept="image/*">
+                                        <button class="btn btn-outline-secondary" type="button" id="uploadScreenshot">رفع</button>
+                                    </div>
+                                    <div id="screenshotPreview" class="text-center">
+                                        <img src="" alt="لقطة الشاشة" class="img-fluid rounded" style="max-height: 200px; display:none;">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                                <button type="button" class="btn btn-primary" id="claimTicketBtn" style="display:none;">المطالبة بالتذكرة</button>
+                                <button type="button" class="btn btn-success" id="completeTicketBtn" style="display:none;">إكمال التذكرة</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- User Profile -->
+                <div id="userProfile" style="display:none;">
+                    <h3 class="mb-4">الملف الشخصي</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>المعلومات الشخصية</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="profileForm">
+                                        <div class="mb-3">
+                                            <label for="profileFirstName" class="form-label">الاسم الأول</label>
+                                            <input type="text" class="form-control" id="profileFirstName" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="profileLastName" class="form-label">الاسم الأخير</label>
+                                            <input type="text" class="form-control" id="profileLastName">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="profileEmail" class="form-label">البريد الإلكتروني</label>
+                                            <input type="email" class="form-control" id="profileEmail" required readonly>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="profileRecoveryEmail" class="form-label">بريد الاسترداد</label>
+                                            <input type="email" class="form-control" id="profileRecoveryEmail">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">تحديث الملف</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>تغيير كلمة المرور</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="passwordForm">
+                                        <div class="mb-3">
+                                            <label for="currentPassword" class="form-label">كلمة المرور الحالية</label>
+                                            <input type="password" class="form-control" id="currentPassword" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="newPassword" class="form-label">كلمة المرور الجديدة</label>
+                                            <input type="password" class="form-control" id="newPassword" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="confirmPassword" class="form-label">تأكيد كلمة المرور الجديدة</label>
+                                            <input type="password" class="form-control" id="confirmPassword" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">تغيير كلمة المرور</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase and other JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-storage-compat.js"></script>
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCOnw-GlwFy8YNXOBRm2ZO9PohX_PZLzEw",
+            authDomain: "g-mailer-farmer.firebaseapp.com",
+            projectId: "g-mailer-farmer",
+            storageBucket: "g-mailer-farmer.appspot.com",
+            messagingSenderId: "119538423256",
+            appId: "1:119538423256:web:b13441730e128b0b3c0ead",
+            measurementId: "G-3E7FPNE87X"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        const storage = firebase.storage();
+
+        // DOM elements
+        const logoutLink = document.getElementById('logoutLink');
+        
+        // Modal elements
+        const ticketDetailsModal = new bootstrap.Modal(document.getElementById('ticketDetailsModal'));
+        const modalFirstName = document.getElementById('modalFirstName');
+        const modalLastName = document.getElementById('modalLastName');
+        const modalEmail = document.getElementById('modalEmail');
+        const modalPassword = document.getElementById('modalPassword');
+        const modalRecoveryEmail = document.getElementById('modalRecoveryEmail');
+        const modalStatus = document.getElementById('modalStatus');
+        const modalAssignedTo = document.getElementById('modalAssignedTo');
+        const modalCreatedAt = document.getElementById('modalCreatedAt');
+        const modalCompletedAt = document.getElementById('modalCompletedAt');
+        const modalNotes = document.getElementById('modalNotes');
+        const claimTicketBtn = document.getElementById('claimTicketBtn');
+        const completeTicketBtn = document.getElementById('completeTicketBtn');
+        const screenshotSection = document.getElementById('screenshotSection');
+        const uploadScreenshot = document.getElementById('uploadScreenshot');
+        const screenshotUpload = document.getElementById('screenshotUpload');
+        const screenshotPreview = document.getElementById('screenshotPreview').querySelector('img');
+        
+        // Current user and ticket data
+        let currentUser = null;
+        let currentTicketId = null;
+        let tickets = [];
+        
+        // Event listeners
+        logoutLink.addEventListener('click', () => {
+            auth.signOut().then(() => {
+                window.location.href = 'login.html';
+            });
+        });
+        
+        // Load user data
+        function loadUserData() {
+            // Update user info in sidebar
+            db.collection('users').doc(currentUser.uid).get().then((doc) => {
+                if (doc.exists) {
+                    const userData = doc.data();
+                    document.getElementById('userAvatar').textContent = userData.firstName ? userData.firstName.charAt(0).toUpperCase() : 'U';
+                    document.getElementById('userName').textContent = userData.firstName ? `${userData.firstName} ${userData.lastName || ''}` : 'مستخدم';
+                    document.getElementById('userEmail').textContent = userData.email || currentUser.email;
+                    
+                    // Update profile form
+                    document.getElementById('profileFirstName').value = userData.firstName || '';
+                    document.getElementById('profileLastName').value = userData.lastName || '';
+                    document.getElementById('profileEmail').value = userData.email || currentUser.email;
+                    document.getElementById('profileRecoveryEmail').value = userData.recoveryEmail || '';
+                }
+            });
+            
+            // Load tickets
+            db.collection('tickets').orderBy('createdAt', 'desc').onSnapshot((snapshot) => {
+                tickets = [];
+                snapshot.forEach((doc) => {
+                    tickets.push({ id: doc.id, ...doc.data() });
+                });
+                updateAvailableTicketsTable();
+                updateUserTicketsTable();
+                updateUserStats();
+            });
+        }
+        
+        // Update available tickets table
+        function updateAvailableTicketsTable() {
+            const table = document.getElementById('availableTicketsTable');
+            table.innerHTML = '';
+            
+            const availableTickets = tickets.filter(ticket => ticket.status === 'open');
+            
+            availableTickets.forEach(ticket => {
+                const row = document.createElement('tr');
+                row.className = 'ticket-card';
+                
+                row.innerHTML = `
+                    <td>${ticket.id.substring(0, 6)}</td>
+                    <td>حساب ${ticket.firstName}</td>
+                    <td><span class="badge bg-success">مفتوحة</span></td>
+                    <td>${formatDate(ticket.createdAt)}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary view-ticket" data-id="${ticket.id}">عرض</button>
+                    </td>
+                `;
+                
+                table.appendChild(row);
+            });
+            
+            // Add event listeners to view buttons
+            document.querySelectorAll('.view-ticket').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const ticketId = e.target.getAttribute('data-id');
+                    viewTicketDetails(ticketId);
+                });
+            });
+        }
+        
+        // Update user's tickets table
+        function updateUserTicketsTable() {
+            const table = document.getElementById('userTicketsTable');
+            table.innerHTML = '';
+            
+            const userTickets = tickets.filter(ticket => 
+                ticket.assignedTo === currentUser.uid && (ticket.status === 'assigned' || ticket.status === 'closed')
+            );
+            
+            userTickets.forEach(ticket => {
+                const row = document.createElement('tr');
+                row.className = ticket.status === 'closed' ? 'ticket-closed' : '';
+                
+                row.innerHTML = `
+                    <td>${ticket.id.substring(0, 6)}</td>
+                    <td>حساب ${ticket.firstName}</td>
+                    <td><span class="badge ${ticket.status === 'assigned' ? 'bg-warning' : 'bg-secondary'}">${ticket.status === 'assigned' ? 'مخصصة' : 'مغلقة'}</span></td>
+                    <td>${formatDate(ticket.assignedAt)}</td>
+                    <td>${ticket.completedAt ? formatDate(ticket.completedAt) : '-'}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary view-ticket" data-id="${ticket.id}">عرض</button>
+                    </td>
+                `;
+                
+                table.appendChild(row);
+            });
+            
+            // Add event listeners to view buttons
+            document.querySelectorAll('.view-ticket').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const ticketId = e.target.getAttribute('data-id');
+                    viewTicketDetails(ticketId);
+                });
+            });
+        }
+        
+        // View ticket details
+        function viewTicketDetails(ticketId) {
+            const ticket = tickets.find(t => t.id === ticketId);
+            if (!ticket) return;
+            
+            currentTicketId = ticketId;
+            
+            // Update modal content
+            modalFirstName.textContent = ticket.firstName || '-';
+            modalLastName.textContent = ticket.lastName || '✖️';
+            modalEmail.textContent = ticket.email || '-';
+            modalPassword.textContent = ticket.password || '-';
+            modalRecoveryEmail.textContent = ticket.recoveryEmail || '-';
+            
+            modalStatus.textContent = ticket.status === 'open' ? 'مفتوحة' : ticket.status === 'assigned' ? 'مخصصة' : 'مغلقة';
+            modalStatus.className = `badge ${ticket.status === 'open' ? 'bg-success' : ticket.status === 'assigned' ? 'bg-warning' : 'bg-secondary'}`;
+            
+            modalAssignedTo.textContent = ticket.assignedToName || 'غير مخصصة';
+            modalCreatedAt.textContent = formatDate(ticket.createdAt);
+            modalCompletedAt.textContent = ticket.completedAt ? formatDate(ticket.completedAt) : '-';
+            modalNotes.textContent = ticket.notes || 'لا توجد ملاحظات إضافية.';
+            
+            // Update buttons based on ticket status
+            claimTicketBtn.style.display = 'none';
+            completeTicketBtn.style.display = 'none';
+            screenshotSection.style.display = 'none';
+            screenshotPreview.style.display = 'none';
+            
+            if (ticket.status === 'open') {
+                claimTicketBtn.style.display = 'block';
+            } else if (ticket.status === 'assigned' && ticket.assignedTo === currentUser.uid) {
+                completeTicketBtn.style.display = 'block';
+                screenshotSection.style.display = 'block';
+            }
+            
+            // Show screenshot if exists
+            if (ticket.screenshotUrl) {
+                screenshotPreview.src = ticket.screenshotUrl;
+                screenshotPreview.style.display = 'block';
+            } else {
+                screenshotPreview.style.display = 'none';
+            }
+            
+            // Show modal
+            ticketDetailsModal.show();
+        }
+        
+        // Claim ticket
+        claimTicketBtn.addEventListener('click', () => {
+            if (!currentTicketId || !currentUser) return;
+            
+            const ticket = tickets.find(t => t.id === currentTicketId);
+            if (!ticket || ticket.status !== 'open') return;
+            
+            // Get user data to update assignedToName
+            db.collection('users').doc(currentUser.uid).get().then((doc) => {
+                if (doc.exists) {
+                    const userData = doc.data();
+                    const userName = `${userData.firstName || ''} ${userData.lastName || ''}`.trim() || 'مستخدم';
+                    
+                    // Update ticket
+                    db.collection('tickets').doc(currentTicketId).update({
+                        status: 'assigned',
+                        assignedTo: currentUser.uid,
+                        assignedToName: userName,
+                        assignedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    }).then(() => {
+                        ticketDetailsModal.hide();
+                        alert('تمت المطالبة بالتذكرة بنجاح!');
+                    }).catch((error) => {
+                        alert('حدث خطأ أثناء المطالبة بالتذكرة: ' + error.message);
+                    });
+                }
+            });
+        });
+        
+        // Complete ticket
+        completeTicketBtn.addEventListener('click', () => {
+            if (!currentTicketId || !currentUser) return;
+            
+            const ticket = tickets.find(t => t.id === currentTicketId);
+            if (!ticket || ticket.status !== 'assigned' || ticket.assignedTo !== currentUser.uid) return;
+            
+            // Check if screenshot is uploaded
+            if (!screenshotUpload.files[0]) {
+                alert('الرجاء رفع لقطة الشاشة قبل إكمال التذكرة.');
+                return;
+            }
+            
+            // Upload screenshot to Firebase Storage
+            const file = screenshotUpload.files[0];
+            const storageRef = storage.ref(`screenshots/${currentTicketId}/${file.name}`);
+            
+            storageRef.put(file).then((snapshot) => {
+                return snapshot.ref.getDownloadURL();
+            }).then((downloadURL) => {
+                // Update ticket
+                return db.collection('tickets').doc(currentTicketId).update({
+                    status: 'closed',
+                    completedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    screenshotUrl: downloadURL
+                });
+            }).then(() => {
+                // Update user's completed tickets count
+                return db.collection('users').doc(currentUser.uid).update({
+                    ticketsCompleted: firebase.firestore.FieldValue.increment(1),
+                    lastActive: firebase.firestore.FieldValue.serverTimestamp()
+                });
+            }).then(() => {
+                ticketDetailsModal.hide();
+                alert('تم إكمال التذكرة بنجاح!');
+                
+                // Send notification to Telegram group
+                sendTelegramNotification(currentTicketId);
+            }).catch((error) => {
+                alert('حدث خطأ أثناء إكمال التذكرة: ' + error.message);
+            });
+        });
+        
+        // Upload screenshot preview
+        uploadScreenshot.addEventListener('click', () => {
+            const file = screenshotUpload.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                screenshotPreview.src = e.target.result;
+                screenshotPreview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        });
+        
+        // Update user stats
+        function updateUserStats() {
+            const assignedTickets = tickets.filter(ticket => 
+                ticket.assignedTo === currentUser.uid && ticket.status === 'assigned'
+            ).length;
+            
+            const completedTickets = tickets.filter(ticket => 
+                ticket.assignedTo === currentUser.uid && ticket.status === 'closed'
+            ).length;
+            
+            // Simple earnings calculation - $1 per completed ticket
+            const earnings = completedTickets * 1;
+            
+            document.getElementById('userAssignedTickets').textContent = assignedTickets;
+            document.getElementById('userCompletedTickets').textContent = completedTickets;
+            document.getElementById('userEarnings').textContent = `$${earnings.toFixed(2)}`;
+        }
+        
+        // Send Telegram notification
+        function sendTelegramNotification(ticketId) {
+            const ticket = tickets.find(t => t.id === ticketId);
+            if (!ticket) return;
+            
+            const botToken = ''; // Add your bot token here
+            const chatId = ''; // Add your chat ID here
+            
+            if (!botToken || !chatId) return;
+            
+            const message = `🎉 تم إكمال تذكرة جديدة!\n\n` +
+                            `🔹 رقم التذكرة: ${ticketId.substring(0, 6)}\n` +
+                            `🔹 الحساب: ${ticket.firstName}'s Gmail\n` +
+                            `🔹 تم الإكمال بواسطة: ${ticket.assignedToName}\n\n` +
+                            `عرض لقطة الشاشة: ${ticket.screenshotUrl}`;
+            
+            fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: message
+                })
+            }).catch(error => console.error('حدث خطأ أثناء إرسال الإشعار:', error));
+        }
+        
+        // Profile form submission
+        document.getElementById('profileForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const profileData = {
+                firstName: document.getElementById('profileFirstName').value,
+                lastName: document.getElementById('profileLastName').value,
+                recoveryEmail: document.getElementById('profileRecoveryEmail').value,
+                lastActive: firebase.firestore.FieldValue.serverTimestamp()
+            };
+            
+            db.collection('users').doc(currentUser.uid).update(profileData)
+                .then(() => {
+                    alert('تم تحديث الملف الشخصي بنجاح!');
+                    loadUserData(); // Refresh user data
+                })
+                .catch((error) => {
+                    alert('حدث خطأ أثناء تحديث الملف الشخصي: ' + error.message);
+                });
+        });
+        
+        // Password form submission
+        document.getElementById('passwordForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (newPassword !== confirmPassword) {
+                alert('كلمات المرور الجديدة غير متطابقة!');
+                return;
+            }
+            
+            // Reauthenticate user
+            const credential = firebase.auth.EmailAuthProvider.credential(
+                currentUser.email, 
+                currentPassword
+            );
+            
+            currentUser.reauthenticateWithCredential(credential)
+                .then(() => {
+                    // Change password
+                    return currentUser.updatePassword(newPassword);
+                })
+                .then(() => {
+                    alert('تم تغيير كلمة المرور بنجاح!');
+                    document.getElementById('passwordForm').reset();
+                })
+                .catch((error) => {
+                    alert('حدث خطأ أثناء تغيير كلمة المرور: ' + error.message);
+                });
+        });
+        
+        // Helper functions
+        function formatDate(timestamp) {
+            if (!timestamp) return '-';
+            const date = timestamp.toDate();
+            return date.toLocaleString('ar-EG');
+        }
+        
+        // User sidebar navigation
+        document.getElementById('userDashboardLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('userDashboard').style.display = 'block';
+            document.getElementById('userTickets').style.display = 'none';
+            document.getElementById('userProfile').style.display = 'none';
+        });
+        
+        document.getElementById('userTicketsLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('userDashboard').style.display = 'none';
+            document.getElementById('userTickets').style.display = 'block';
+            document.getElementById('userProfile').style.display = 'none';
+        });
+        
+        document.getElementById('userProfileLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('userDashboard').style.display = 'none';
+            document.getElementById('userTickets').style.display = 'none';
+            document.getElementById('userProfile').style.display = 'block';
+        });
+        
+        // Check auth state on page load
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                currentUser = user;
+                
+                // Check if user is not admin
+                db.collection('users').doc(user.uid).get()
+                    .then((doc) => {
+                        if (doc.exists && doc.data().role !== 'admin') {
+                            // User is regular user, load user data
+                            loadUserData();
+                        } else {
+                            // User is admin, redirect to admin page
+                            window.location.href = 'admin.html';
+                        }
+                    })
+                    .catch(() => {
+                        // Error checking role, redirect to login
+                        window.location.href = 'login.html';
+                    });
+            } else {
+                // No user logged in, redirect to login
+                window.location.href = 'login.html';
+            }
+        });
+    </script>
+</body>
+</html>
