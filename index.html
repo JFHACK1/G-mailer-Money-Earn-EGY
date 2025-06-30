@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>G-mailer Money Earn EGY - User</title>
+    <title>نظام إدارة التذاكر - G-mailer Money Earn EGY</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -100,6 +100,10 @@
             font-weight: bold;
         }
         
+        #loginSection, #adminSection, #userSection {
+            display: none;
+        }
+        
         .telegram-btn {
             background-color: #0088cc;
             color: white;
@@ -110,7 +114,21 @@
             color: white;
         }
         
-        /* RTL specific styles */
+        .ticket-form {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        #ticketPreview {
+            border: 1px dashed #ccc;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        
+        /* RTL Styling */
         .form-control, .form-select, .input-group-text {
             text-align: right;
         }
@@ -128,35 +146,378 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">G-mailer Money Earn EGY - User</a>
+            <a class="navbar-brand" href="#">G-mailer Money Earn EGY</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#" id="logoutLink">تسجيل الخروج</a>
+                        <a class="nav-link" href="#" id="loginLink">تسجيل الدخول</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="adminLink" style="display:none;">لوحة التحكم</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="userLink" style="display:none;">لوحة المستخدم</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="logoutLink" style="display:none;">تسجيل الخروج</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
+    <!-- Login Section -->
+    <div class="container mt-5" id="loginSection">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h4>تسجيل الدخول إلى حسابك</h4>
+                    </div>
+                    <div class="card-body">
+                        <form id="loginForm">
+                            <div class="mb-3">
+                                <label for="loginEmail" class="form-label">البريد الإلكتروني</label>
+                                <input type="email" class="form-control" id="loginEmail" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="loginPassword" class="form-label">كلمة المرور</label>
+                                <input type="password" class="form-control" id="loginPassword" required>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">تسجيل الدخول</button>
+                            </div>
+                        </form>
+                        <div class="mt-3 text-center">
+                            <p>ليس لديك حساب؟ <a href="#" id="showRegister">إنشاء حساب جديد</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Section -->
+    <div class="container mt-5" id="registerSection" style="display:none;">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h4>إنشاء حساب جديد</h4>
+                    </div>
+                    <div class="card-body">
+                        <form id="registerForm">
+                            <div class="mb-3">
+                                <label for="firstName" class="form-label">الاسم الأول</label>
+                                <input type="text" class="form-control" id="firstName" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="lastName" class="form-label">الاسم الأخير</label>
+                                <input type="text" class="form-control" id="lastName">
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">البريد الإلكتروني</label>
+                                <input type="email" class="form-control" id="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">كلمة المرور</label>
+                                <input type="password" class="form-control" id="password" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="recoveryEmail" class="form-label">بريد الاسترداد</label>
+                                <input type="email" class="form-control" id="recoveryEmail">
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">إنشاء حساب</button>
+                            </div>
+                        </form>
+                        <div class="mt-3 text-center">
+                            <p>لديك حساب بالفعل؟ <a href="#" id="showLogin">تسجيل الدخول</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Section -->
+    <div class="container-fluid" id="adminSection" style="display:none;">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 sidebar p-0">
+                <div class="p-3">
+                    <h5 class="text-center mb-4">لوحة التحكم</h5>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" id="adminDashboardLink">
+                                <i class="fas fa-tachometer-alt me-2"></i> الإحصائيات
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="adminTicketsLink">
+                                <i class="fas fa-ticket-alt me-2"></i> إدارة التذاكر
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="adminUsersLink">
+                                <i class="fas fa-users me-2"></i> إدارة المستخدمين
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="adminAddTicketLink">
+                                <i class="fas fa-plus-circle me-2"></i> إضافة تذكرة جديدة
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="adminSettingsLink">
+                                <i class="fas fa-cog me-2"></i> الإعدادات
+                            </a>
+                        </li>
+                        <li class="nav-item mt-3">
+                            <a class="nav-link telegram-btn" href="https://t.me/pic_G_mail" target="_blank">
+                                <i class="fab fa-telegram me-2"></i> مجموعة التليجرام
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 main-content">
+                <!-- Admin Dashboard -->
+                <div id="adminDashboard">
+                    <h3 class="mb-4">لوحة التحكم</h3>
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            <div class="card stat-card">
+                                <div class="card-body">
+                                    <h5 class="card-title">إجمالي التذاكر</h5>
+                                    <h2 class="card-text" id="totalTickets">0</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card stat-card">
+                                <div class="card-body">
+                                    <h5 class="card-title">المستخدمون النشطون</h5>
+                                    <h2 class="card-text" id="activeUsers">0</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card stat-card">
+                                <div class="card-body">
+                                    <h5 class="card-title">المكتملة اليوم</h5>
+                                    <h2 class="card-text" id="completedToday">0</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>أحدث الأنشطة</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>المستخدم</th>
+                                            <th>الإجراء</th>
+                                            <th>التذكرة</th>
+                                            <th>الوقت</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="recentActivity">
+                                        <!-- Will be populated by JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Admin Tickets -->
+                <div id="adminTickets" style="display:none;">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3>إدارة التذاكر</h3>
+                        <div class="btn-group">
+                            <button class="btn btn-outline-primary active" id="showAllTickets">الكل</button>
+                            <button class="btn btn-outline-primary" id="showOpenTickets">مفتوحة</button>
+                            <button class="btn btn-outline-primary" id="showClosedTickets">مغلقة</button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>العنوان</th>
+                                            <th>مخصصة لـ</th>
+                                            <th>الحالة</th>
+                                            <th>تاريخ الإنشاء</th>
+                                            <th>الإجراءات</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ticketsTable">
+                                        <!-- Will be populated by JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Admin Users -->
+                <div id="adminUsers" style="display:none;">
+                    <h3 class="mb-4">إدارة المستخدمين</h3>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>الصورة</th>
+                                            <th>الاسم</th>
+                                            <th>البريد الإلكتروني</th>
+                                            <th>التذاكر المكتملة</th>
+                                            <th>آخر نشاط</th>
+                                            <th>الإجراءات</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="usersTable">
+                                        <!-- Will be populated by JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add Ticket Form -->
+                <div id="adminAddTicket" style="display:none;">
+                    <h3 class="mb-4">إضافة تذكرة جديدة</h3>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="ticket-form">
+                                <form id="addTicketForm">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="ticketFirstName" class="form-label">الاسم الأول</label>
+                                            <input type="text" class="form-control" id="ticketFirstName" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="ticketLastName" class="form-label">الاسم الأخير</label>
+                                            <input type="text" class="form-control" id="ticketLastName">
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="ticketEmail" class="form-label">البريد الإلكتروني</label>
+                                        <input type="email" class="form-control" id="ticketEmail" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="ticketPassword" class="form-label">كلمة المرور</label>
+                                        <input type="text" class="form-control" id="ticketPassword" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="ticketRecoveryEmail" class="form-label">بريد الاسترداد</label>
+                                        <input type="email" class="form-control" id="ticketRecoveryEmail">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="ticketNotes" class="form-label">ملاحظات إضافية</label>
+                                        <textarea class="form-control" id="ticketNotes" rows="3"></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="ticketPriority" class="form-label">الأولوية</label>
+                                        <select class="form-select" id="ticketPriority">
+                                            <option value="low">منخفضة</option>
+                                            <option value="medium" selected>متوسطة</option>
+                                            <option value="high">عالية</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">إضافة تذكرة</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>معاينة التذكرة</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div id="ticketPreview">
+                                        <p><strong>الاسم الأول:</strong> <span id="previewFirstName">-</span></p>
+                                        <p><strong>الاسم الأخير:</strong> <span id="previewLastName">✖️</span></p>
+                                        <p><strong>البريد الإلكتروني:</strong> <span id="previewEmail">-</span></p>
+                                        <p><strong>كلمة المرور:</strong> <span id="previewPassword">-</span></p>
+                                        <p><strong>بريد الاسترداد:</strong> <span id="previewRecoveryEmail">-</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Admin Settings -->
+                <div id="adminSettings" style="display:none;">
+                    <h3 class="mb-4">إعدادات النظام</h3>
+                    <div class="card">
+                        <div class="card-body">
+                            <form id="settingsForm">
+                                <div class="mb-3">
+                                    <label for="telegramGroupLink" class="form-label">رابط مجموعة التليجرام</label>
+                                    <input type="text" class="form-control" id="telegramGroupLink" value="https://t.me/pic_G_mail">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="botToken" class="form-label">رمز بوت التليجرام</label>
+                                    <input type="text" class="form-control" id="botToken" placeholder="أدخل رمز البوت">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="chatId" class="form-label">معرف المحادثة</label>
+                                    <input type="text" class="form-control" id="chatId" placeholder="أدخل معرف المحادثة للإشعارات">
+                                </div>
+                                <div class="mb-3 form-check">
+                                    <input type="checkbox" class="form-check-input" id="enableNotifications">
+                                    <label class="form-check-label" for="enableNotifications">تفعيل الإشعارات عبر التليجرام</label>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="earningsPerTicket" class="form-label">الأرباح لكل تذكرة ($)</label>
+                                    <input type="number" class="form-control" id="earningsPerTicket" value="1.00" step="0.01" min="0">
+                                </div>
+                                <button type="submit" class="btn btn-primary">حفظ الإعدادات</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- User Section -->
-    <div class="container-fluid">
+    <div class="container-fluid" id="userSection" style="display:none;">
         <div class="row">
             <!-- Sidebar -->
             <div class="col-md-3 col-lg-2 sidebar p-0">
                 <div class="p-3">
                     <div class="text-center mb-4">
                         <div class="user-avatar mx-auto mb-2" id="userAvatar">U</div>
-                        <h6 id="userName">مستخدم</h6>
+                        <h6 id="userName">المستخدم</h6>
                         <small class="text-muted" id="userEmail">user@example.com</small>
+                        <div class="mt-2">
+                            <span class="badge bg-success" id="userBalance">$0.00</span>
+                        </div>
                     </div>
                     <ul class="nav flex-column">
                         <li class="nav-item">
                             <a class="nav-link active" href="#" id="userDashboardLink">
-                                <i class="fas fa-tachometer-alt me-2"></i> الإحصائيات
+                                <i class="fas fa-tachometer-alt me-2"></i> لوحة التحكم
                             </a>
                         </li>
                         <li class="nav-item">
@@ -182,7 +543,7 @@
             <div class="col-md-9 col-lg-10 main-content">
                 <!-- User Dashboard -->
                 <div id="userDashboard">
-                    <h3 class="mb-4">الإحصائيات</h3>
+                    <h3 class="mb-4">لوحة التحكم</h3>
                     <div class="row mb-4">
                         <div class="col-md-4">
                             <div class="card stat-card">
@@ -203,7 +564,7 @@
                         <div class="col-md-4">
                             <div class="card stat-card">
                                 <div class="card-body">
-                                    <h5 class="card-title">الأرباح</h5>
+                                    <h5 class="card-title">إجمالي الأرباح</h5>
                                     <h2 class="card-text" id="userEarnings">$0.00</h2>
                                 </div>
                             </div>
@@ -274,18 +635,18 @@
                                     <div class="col-md-6">
                                         <h6>معلومات الحساب</h6>
                                         <div class="mb-3">
-                                            <p><strong>First name:</strong> <span id="modalFirstName">-</span></p>
-                                            <p><strong>Last name:</strong> <span id="modalLastName">✖️</span></p>
-                                            <p><strong>Email:</strong> <span id="modalEmail">-</span></p>
-                                            <p><strong>Password:</strong> <span id="modalPassword">-</span></p>
-                                            <p><strong>Recovery email:</strong> <span id="modalRecoveryEmail">-</span></p>
+                                            <p><strong>الاسم الأول:</strong> <span id="modalFirstName">-</span></p>
+                                            <p><strong>الاسم الأخير:</strong> <span id="modalLastName">✖️</span></p>
+                                            <p><strong>البريد الإلكتروني:</strong> <span id="modalEmail">-</span></p>
+                                            <p><strong>كلمة المرور:</strong> <span id="modalPassword">-</span></p>
+                                            <p><strong>بريد الاسترداد:</strong> <span id="modalRecoveryEmail">-</span></p>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <h6>معلومات التذكرة</h6>
                                         <div class="mb-3">
                                             <p><strong>الحالة:</strong> <span id="modalStatus" class="badge bg-primary">مفتوحة</span></p>
-                                            <p><strong>مخصصة ل:</strong> <span id="modalAssignedTo">-</span></p>
+                                            <p><strong>مخصصة لـ:</strong> <span id="modalAssignedTo">-</span></p>
                                             <p><strong>تاريخ الإنشاء:</strong> <span id="modalCreatedAt">-</span></p>
                                             <p><strong>تاريخ الإكمال:</strong> <span id="modalCompletedAt">-</span></p>
                                         </div>
@@ -310,7 +671,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
-                                <button type="button" class="btn btn-primary" id="claimTicketBtn" style="display:none;">المطالبة بالتذكرة</button>
+                                <button type="button" class="btn btn-primary" id="claimTicketBtn">المطالبة بالتذكرة</button>
                                 <button type="button" class="btn btn-success" id="completeTicketBtn" style="display:none;">إكمال التذكرة</button>
                             </div>
                         </div>
@@ -338,7 +699,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="profileEmail" class="form-label">البريد الإلكتروني</label>
-                                            <input type="email" class="form-control" id="profileEmail" required readonly>
+                                            <input type="email" class="form-control" id="profileEmail" required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="profileRecoveryEmail" class="form-label">بريد الاسترداد</label>
@@ -404,7 +765,30 @@
         const storage = firebase.storage();
 
         // DOM elements
+        const loginSection = document.getElementById('loginSection');
+        const registerSection = document.getElementById('registerSection');
+        const adminSection = document.getElementById('adminSection');
+        const userSection = document.getElementById('userSection');
+        const showRegister = document.getElementById('showRegister');
+        const showLogin = document.getElementById('showLogin');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
         const logoutLink = document.getElementById('logoutLink');
+        const adminLink = document.getElementById('adminLink');
+        const userLink = document.getElementById('userLink');
+        const loginLink = document.getElementById('loginLink');
+        
+        // Ticket preview elements
+        const ticketFirstName = document.getElementById('ticketFirstName');
+        const ticketLastName = document.getElementById('ticketLastName');
+        const ticketEmail = document.getElementById('ticketEmail');
+        const ticketPassword = document.getElementById('ticketPassword');
+        const ticketRecoveryEmail = document.getElementById('ticketRecoveryEmail');
+        const previewFirstName = document.getElementById('previewFirstName');
+        const previewLastName = document.getElementById('previewLastName');
+        const previewEmail = document.getElementById('previewEmail');
+        const previewPassword = document.getElementById('previewPassword');
+        const previewRecoveryEmail = document.getElementById('previewRecoveryEmail');
         
         // Modal elements
         const ticketDetailsModal = new bootstrap.Modal(document.getElementById('ticketDetailsModal'));
@@ -429,13 +813,214 @@
         let currentUser = null;
         let currentTicketId = null;
         let tickets = [];
+        let users = [];
+        let systemSettings = {
+            earningsPerTicket: 1.00,
+            telegramGroupLink: "https://t.me/pic_G_mail",
+            botToken: "",
+            chatId: "",
+            enableNotifications: false
+        };
         
         // Event listeners
+        showRegister.addEventListener('click', () => {
+            loginSection.style.display = 'none';
+            registerSection.style.display = 'block';
+        });
+        
+        showLogin.addEventListener('click', () => {
+            registerSection.style.display = 'none';
+            loginSection.style.display = 'block';
+        });
+        
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            auth.signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    currentUser = userCredential.user;
+                    checkUserRole(currentUser.uid);
+                })
+                .catch((error) => {
+                    alert(error.message);
+                });
+        });
+        
+        registerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const recoveryEmail = document.getElementById('recoveryEmail').value;
+            
+            auth.createUserWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    currentUser = userCredential.user;
+                    
+                    // Add user to Firestore with default role 'user'
+                    return db.collection('users').doc(currentUser.uid).set({
+                        firstName: firstName,
+                        lastName: lastName,
+                        email: email,
+                        recoveryEmail: recoveryEmail,
+                        role: 'user', // Default role - admin can be set manually in Firebase
+                        balance: 0.00,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        ticketsCompleted: 0,
+                        lastActive: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                })
+                .then(() => {
+                    // Redirect to user dashboard
+                    showUserDashboard();
+                })
+                .catch((error) => {
+                    alert('حدث خطأ: ' + error.message);
+                });
+        });
+        
         logoutLink.addEventListener('click', () => {
             auth.signOut().then(() => {
-                window.location.href = 'login.html';
+                currentUser = null;
+                loginSection.style.display = 'block';
+                adminSection.style.display = 'none';
+                userSection.style.display = 'none';
+                logoutLink.style.display = 'none';
+                adminLink.style.display = 'none';
+                userLink.style.display = 'none';
+                loginLink.style.display = 'block';
             });
         });
+        
+        // Ticket form preview update
+        [ticketFirstName, ticketLastName, ticketEmail, ticketPassword, ticketRecoveryEmail].forEach(input => {
+            input.addEventListener('input', updateTicketPreview);
+        });
+        
+        function updateTicketPreview() {
+            previewFirstName.textContent = ticketFirstName.value || '-';
+            previewLastName.textContent = ticketLastName.value || '✖️';
+            previewEmail.textContent = ticketEmail.value || '-';
+            previewPassword.textContent = ticketPassword.value || '-';
+            previewRecoveryEmail.textContent = ticketRecoveryEmail.value || '-';
+        }
+        
+        // Check user role after login
+        function checkUserRole(uid) {
+            db.collection('users').doc(uid).get()
+                .then((doc) => {
+                    if (doc.exists) {
+                        const userData = doc.data();
+                        
+                        // Update last active time
+                        db.collection('users').doc(uid).update({
+                            lastActive: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+                        
+                        if (userData.role === 'admin') {
+                            showAdminDashboard();
+                            loadSystemSettings();
+                        } else {
+                            showUserDashboard();
+                        }
+                    } else {
+                        // If user document doesn't exist (shouldn't happen), create one with default role 'user'
+                        db.collection('users').doc(uid).set({
+                            role: 'user',
+                            balance: 0.00,
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                            ticketsCompleted: 0,
+                            lastActive: firebase.firestore.FieldValue.serverTimestamp()
+                        }).then(() => {
+                            showUserDashboard();
+                        });
+                    }
+                });
+        }
+        
+        // Show admin dashboard
+        function showAdminDashboard() {
+            loginSection.style.display = 'none';
+            registerSection.style.display = 'none';
+            adminSection.style.display = 'block';
+            userSection.style.display = 'none';
+            logoutLink.style.display = 'block';
+            adminLink.style.display = 'block';
+            userLink.style.display = 'none';
+            loginLink.style.display = 'none';
+            
+            // Show admin dashboard by default
+            document.getElementById('adminDashboard').style.display = 'block';
+            document.getElementById('adminTickets').style.display = 'none';
+            document.getElementById('adminUsers').style.display = 'none';
+            document.getElementById('adminAddTicket').style.display = 'none';
+            document.getElementById('adminSettings').style.display = 'none';
+            
+            // Load admin data
+            loadAdminData();
+        }
+        
+        // Show user dashboard
+        function showUserDashboard() {
+            loginSection.style.display = 'none';
+            registerSection.style.display = 'none';
+            adminSection.style.display = 'none';
+            userSection.style.display = 'block';
+            logoutLink.style.display = 'block';
+            adminLink.style.display = 'none';
+            userLink.style.display = 'block';
+            loginLink.style.display = 'none';
+            
+            // Show user dashboard by default
+            document.getElementById('userDashboard').style.display = 'block';
+            document.getElementById('userTickets').style.display = 'none';
+            document.getElementById('userProfile').style.display = 'none';
+            
+            // Load user data
+            loadUserData();
+        }
+        
+        // Load admin data
+        function loadAdminData() {
+            // Load tickets
+            db.collection('tickets').orderBy('createdAt', 'desc').onSnapshot((snapshot) => {
+                tickets = [];
+                snapshot.forEach((doc) => {
+                    tickets.push({ id: doc.id, ...doc.data() });
+                });
+                updateTicketsTable();
+                updateStats();
+            });
+            
+            // Load users
+            db.collection('users').orderBy('lastActive', 'desc').onSnapshot((snapshot) => {
+                users = [];
+                snapshot.forEach((doc) => {
+                    users.push({ id: doc.id, ...doc.data() });
+                });
+                updateUsersTable();
+                updateStats();
+            });
+        }
+        
+        // Load system settings
+        function loadSystemSettings() {
+            db.collection('settings').doc('system').get().then((doc) => {
+                if (doc.exists) {
+                    systemSettings = doc.data();
+                    
+                    // Update settings form
+                    document.getElementById('telegramGroupLink').value = systemSettings.telegramGroupLink || '';
+                    document.getElementById('botToken').value = systemSettings.botToken || '';
+                    document.getElementById('chatId').value = systemSettings.chatId || '';
+                    document.getElementById('enableNotifications').checked = systemSettings.enableNotifications || false;
+                    document.getElementById('earningsPerTicket').value = systemSettings.earningsPerTicket || 1.00;
+                }
+            });
+        }
         
         // Load user data
         function loadUserData() {
@@ -444,8 +1029,9 @@
                 if (doc.exists) {
                     const userData = doc.data();
                     document.getElementById('userAvatar').textContent = userData.firstName ? userData.firstName.charAt(0).toUpperCase() : 'U';
-                    document.getElementById('userName').textContent = userData.firstName ? `${userData.firstName} ${userData.lastName || ''}` : 'مستخدم';
+                    document.getElementById('userName').textContent = userData.firstName ? `${userData.firstName} ${userData.lastName || ''}` : 'المستخدم';
                     document.getElementById('userEmail').textContent = userData.email || currentUser.email;
+                    document.getElementById('userBalance').textContent = `$${userData.balance?.toFixed(2) || '0.00'}`;
                     
                     // Update profile form
                     document.getElementById('profileFirstName').value = userData.firstName || '';
@@ -467,21 +1053,20 @@
             });
         }
         
-        // Update available tickets table
-        function updateAvailableTicketsTable() {
-            const table = document.getElementById('availableTicketsTable');
+        // Update admin tickets table
+        function updateTicketsTable() {
+            const table = document.getElementById('ticketsTable');
             table.innerHTML = '';
             
-            const availableTickets = tickets.filter(ticket => ticket.status === 'open');
-            
-            availableTickets.forEach(ticket => {
+            tickets.forEach(ticket => {
                 const row = document.createElement('tr');
-                row.className = 'ticket-card';
+                row.className = ticket.status === 'closed' ? 'ticket-closed' : '';
                 
                 row.innerHTML = `
                     <td>${ticket.id.substring(0, 6)}</td>
                     <td>حساب ${ticket.firstName}</td>
-                    <td><span class="badge bg-success">مفتوحة</span></td>
+                    <td>${ticket.assignedTo ? ticket.assignedToName : 'غير مخصص'}</td>
+                    <td><span class="badge ${ticket.status === 'open' ? 'bg-success' : ticket.status === 'assigned' ? 'bg-warning' : 'bg-secondary'}">${getStatusText(ticket.status)}</span></td>
                     <td>${formatDate(ticket.createdAt)}</td>
                     <td>
                         <button class="btn btn-sm btn-primary view-ticket" data-id="${ticket.id}">عرض</button>
@@ -495,7 +1080,102 @@
             document.querySelectorAll('.view-ticket').forEach(button => {
                 button.addEventListener('click', (e) => {
                     const ticketId = e.target.getAttribute('data-id');
-                    viewTicketDetails(ticketId);
+                    viewTicketDetails(ticketId, true); // true for admin view
+                });
+            });
+        }
+        
+        // Update admin users table
+        function updateUsersTable() {
+            const table = document.getElementById('usersTable');
+            table.innerHTML = '';
+            
+            users.forEach(user => {
+                const row = document.createElement('tr');
+                
+                row.innerHTML = `
+                    <td><div class="user-avatar">${user.firstName ? user.firstName.charAt(0).toUpperCase() : 'U'}</div></td>
+                    <td>${user.firstName || ''} ${user.lastName || ''}</td>
+                    <td>${user.email}</td>
+                    <td>${user.ticketsCompleted || 0}</td>
+                    <td>${formatDate(user.lastActive)}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary view-user" data-id="${user.id}">عرض</button>
+                        ${user.role !== 'admin' ? `<button class="btn btn-sm btn-danger delete-user ms-2" data-id="${user.id}">حذف</button>` : ''}
+                    </td>
+                `;
+                
+                table.appendChild(row);
+            });
+            
+            // Add event listeners to view buttons
+            document.querySelectorAll('.view-user').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const userId = e.target.getAttribute('data-id');
+                    viewUserDetails(userId);
+                });
+            });
+            
+            // Add event listeners to delete buttons
+            document.querySelectorAll('.delete-user').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const userId = e.target.getAttribute('data-id');
+                    if (confirm('هل أنت متأكد من حذف هذا المستخدم؟')) {
+                        deleteUser(userId);
+                    }
+                });
+            });
+        }
+        
+        // Delete user
+        function deleteUser(userId) {
+            db.collection('users').doc(userId).delete()
+                .then(() => {
+                    alert('تم حذف المستخدم بنجاح');
+                })
+                .catch((error) => {
+                    alert('حدث خطأ أثناء حذف المستخدم: ' + error.message);
+                });
+        }
+        
+        // View user details
+        function viewUserDetails(userId) {
+            const user = users.find(u => u.id === userId);
+            if (!user) return;
+            
+            // In a real app, you would show a modal with user details
+            alert(`تفاصيل المستخدم:\n\nالاسم: ${user.firstName || ''} ${user.lastName || ''}\nالبريد الإلكتروني: ${user.email}\nالدور: ${user.role}\nالتذاكر المكتملة: ${user.ticketsCompleted || 0}`);
+        }
+        
+        // Update available tickets table for users
+        function updateAvailableTicketsTable() {
+            const table = document.getElementById('availableTicketsTable');
+            table.innerHTML = '';
+            
+            const availableTickets = tickets.filter(ticket => ticket.status === 'open');
+            
+            availableTickets.forEach(ticket => {
+                const row = document.createElement('tr');
+                row.className = 'ticket-card';
+                
+                row.innerHTML = `
+                    <td>${ticket.id.substring(0, 6)}</td>
+                    <td>حساب ${ticket.firstName}</td>
+                    <td><span class="badge bg-success">${getStatusText(ticket.status)}</span></td>
+                    <td>${formatDate(ticket.createdAt)}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary view-ticket" data-id="${ticket.id}">عرض</button>
+                    </td>
+                `;
+                
+                table.appendChild(row);
+            });
+            
+            // Add event listeners to view buttons
+            document.querySelectorAll('.view-ticket').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const ticketId = e.target.getAttribute('data-id');
+                    viewTicketDetails(ticketId, false); // false for user view
                 });
             });
         }
@@ -516,7 +1196,7 @@
                 row.innerHTML = `
                     <td>${ticket.id.substring(0, 6)}</td>
                     <td>حساب ${ticket.firstName}</td>
-                    <td><span class="badge ${ticket.status === 'assigned' ? 'bg-warning' : 'bg-secondary'}">${ticket.status === 'assigned' ? 'مخصصة' : 'مغلقة'}</span></td>
+                    <td><span class="badge ${ticket.status === 'assigned' ? 'bg-warning' : 'bg-secondary'}">${getStatusText(ticket.status)}</span></td>
                     <td>${formatDate(ticket.assignedAt)}</td>
                     <td>${ticket.completedAt ? formatDate(ticket.completedAt) : '-'}</td>
                     <td>
@@ -531,13 +1211,13 @@
             document.querySelectorAll('.view-ticket').forEach(button => {
                 button.addEventListener('click', (e) => {
                     const ticketId = e.target.getAttribute('data-id');
-                    viewTicketDetails(ticketId);
+                    viewTicketDetails(ticketId, false); // false for user view
                 });
             });
         }
         
         // View ticket details
-        function viewTicketDetails(ticketId) {
+        function viewTicketDetails(ticketId, isAdminView) {
             const ticket = tickets.find(t => t.id === ticketId);
             if (!ticket) return;
             
@@ -550,33 +1230,33 @@
             modalPassword.textContent = ticket.password || '-';
             modalRecoveryEmail.textContent = ticket.recoveryEmail || '-';
             
-            modalStatus.textContent = ticket.status === 'open' ? 'مفتوحة' : ticket.status === 'assigned' ? 'مخصصة' : 'مغلقة';
+            modalStatus.textContent = getStatusText(ticket.status);
             modalStatus.className = `badge ${ticket.status === 'open' ? 'bg-success' : ticket.status === 'assigned' ? 'bg-warning' : 'bg-secondary'}`;
             
-            modalAssignedTo.textContent = ticket.assignedToName || 'غير مخصصة';
+            modalAssignedTo.textContent = ticket.assignedToName || 'غير مخصص';
             modalCreatedAt.textContent = formatDate(ticket.createdAt);
             modalCompletedAt.textContent = ticket.completedAt ? formatDate(ticket.completedAt) : '-';
             modalNotes.textContent = ticket.notes || 'لا توجد ملاحظات إضافية.';
             
-            // Update buttons based on ticket status
+            // Update buttons based on ticket status and user role
             claimTicketBtn.style.display = 'none';
             completeTicketBtn.style.display = 'none';
             screenshotSection.style.display = 'none';
             screenshotPreview.style.display = 'none';
             
-            if (ticket.status === 'open') {
-                claimTicketBtn.style.display = 'block';
-            } else if (ticket.status === 'assigned' && ticket.assignedTo === currentUser.uid) {
-                completeTicketBtn.style.display = 'block';
-                screenshotSection.style.display = 'block';
-            }
-            
-            // Show screenshot if exists
-            if (ticket.screenshotUrl) {
-                screenshotPreview.src = ticket.screenshotUrl;
-                screenshotPreview.style.display = 'block';
+            if (isAdminView) {
+                // Admin view - show different options
+                document.getElementById('ticketModalTitle').textContent = `التذكرة ${ticketId.substring(0, 6)} - عرض المدير`;
             } else {
-                screenshotPreview.style.display = 'none';
+                // Regular user view
+                document.getElementById('ticketModalTitle').textContent = `التذكرة ${ticketId.substring(0, 6)}`;
+                
+                if (ticket.status === 'open') {
+                    claimTicketBtn.style.display = 'block';
+                } else if (ticket.status === 'assigned' && ticket.assignedTo === currentUser.uid) {
+                    completeTicketBtn.style.display = 'block';
+                    screenshotSection.style.display = 'block';
+                }
             }
             
             // Show modal
@@ -594,7 +1274,7 @@
             db.collection('users').doc(currentUser.uid).get().then((doc) => {
                 if (doc.exists) {
                     const userData = doc.data();
-                    const userName = `${userData.firstName || ''} ${userData.lastName || ''}`.trim() || 'مستخدم';
+                    const userName = `${userData.firstName || ''} ${userData.lastName || ''}`.trim() || 'مستخدم غير معروف';
                     
                     // Update ticket
                     db.collection('tickets').doc(currentTicketId).update({
@@ -603,8 +1283,13 @@
                         assignedToName: userName,
                         assignedAt: firebase.firestore.FieldValue.serverTimestamp()
                     }).then(() => {
+                        // Update user's last active time
+                        db.collection('users').doc(currentUser.uid).update({
+                            lastActive: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+                        
                         ticketDetailsModal.hide();
-                        alert('تمت المطالبة بالتذكرة بنجاح!');
+                        alert('تم المطالبة بالتذكرة بنجاح!');
                     }).catch((error) => {
                         alert('حدث خطأ أثناء المطالبة بالتذكرة: ' + error.message);
                     });
@@ -621,7 +1306,7 @@
             
             // Check if screenshot is uploaded
             if (!screenshotUpload.files[0]) {
-                alert('الرجاء رفع لقطة الشاشة قبل إكمال التذكرة.');
+                alert('الرجاء رفع لقطة شاشة قبل إكمال التذكرة.');
                 return;
             }
             
@@ -639,17 +1324,20 @@
                     screenshotUrl: downloadURL
                 });
             }).then(() => {
-                // Update user's completed tickets count
+                // Update user's completed tickets count and balance
                 return db.collection('users').doc(currentUser.uid).update({
                     ticketsCompleted: firebase.firestore.FieldValue.increment(1),
+                    balance: firebase.firestore.FieldValue.increment(systemSettings.earningsPerTicket || 1.00),
                     lastActive: firebase.firestore.FieldValue.serverTimestamp()
                 });
             }).then(() => {
                 ticketDetailsModal.hide();
                 alert('تم إكمال التذكرة بنجاح!');
                 
-                // Send notification to Telegram group
-                sendTelegramNotification(currentTicketId);
+                // Send notification to Telegram group if enabled
+                if (systemSettings.enableNotifications && systemSettings.botToken && systemSettings.chatId) {
+                    sendTelegramNotification(currentTicketId);
+                }
             }).catch((error) => {
                 alert('حدث خطأ أثناء إكمال التذكرة: ' + error.message);
             });
@@ -668,6 +1356,46 @@
             reader.readAsDataURL(file);
         });
         
+        // Add ticket form submission
+        document.getElementById('addTicketForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const ticketData = {
+                firstName: ticketFirstName.value,
+                lastName: ticketLastName.value,
+                email: ticketEmail.value,
+                password: ticketPassword.value,
+                recoveryEmail: ticketRecoveryEmail.value,
+                notes: document.getElementById('ticketNotes').value,
+                priority: document.getElementById('ticketPriority').value,
+                status: 'open',
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+            
+            db.collection('tickets').add(ticketData)
+                .then(() => {
+                    alert('تم إضافة التذكرة بنجاح!');
+                    document.getElementById('addTicketForm').reset();
+                    updateTicketPreview();
+                })
+                .catch((error) => {
+                    alert('حدث خطأ أثناء إضافة التذكرة: ' + error.message);
+                });
+        });
+        
+        // Update admin stats
+        function updateStats() {
+            const totalTickets = tickets.length;
+            const activeUsers = users.filter(user => user.role === 'user').length;
+            const completedToday = tickets.filter(ticket => 
+                ticket.status === 'closed' && isToday(ticket.completedAt)
+            ).length;
+            
+            document.getElementById('totalTickets').textContent = totalTickets;
+            document.getElementById('activeUsers').textContent = activeUsers;
+            document.getElementById('completedToday').textContent = completedToday;
+        }
+        
         // Update user stats
         function updateUserStats() {
             const assignedTickets = tickets.filter(ticket => 
@@ -678,12 +1406,16 @@
                 ticket.assignedTo === currentUser.uid && ticket.status === 'closed'
             ).length;
             
-            // Simple earnings calculation - $1 per completed ticket
-            const earnings = completedTickets * 1;
+            // Get user's balance
+            db.collection('users').doc(currentUser.uid).get().then((doc) => {
+                if (doc.exists) {
+                    const userData = doc.data();
+                    document.getElementById('userEarnings').textContent = `$${userData.balance?.toFixed(2) || '0.00'}`;
+                }
+            });
             
             document.getElementById('userAssignedTickets').textContent = assignedTickets;
             document.getElementById('userCompletedTickets').textContent = completedTickets;
-            document.getElementById('userEarnings').textContent = `$${earnings.toFixed(2)}`;
         }
         
         // Send Telegram notification
@@ -691,15 +1423,16 @@
             const ticket = tickets.find(t => t.id === ticketId);
             if (!ticket) return;
             
-            const botToken = ''; // Add your bot token here
-            const chatId = ''; // Add your chat ID here
+            const botToken = systemSettings.botToken;
+            const chatId = systemSettings.chatId;
             
             if (!botToken || !chatId) return;
             
             const message = `🎉 تم إكمال تذكرة جديدة!\n\n` +
                             `🔹 رقم التذكرة: ${ticketId.substring(0, 6)}\n` +
                             `🔹 الحساب: ${ticket.firstName}'s Gmail\n` +
-                            `🔹 تم الإكمال بواسطة: ${ticket.assignedToName}\n\n` +
+                            `🔹 تم الإكمال بواسطة: ${ticket.assignedToName}\n` +
+                            `🔹 الأرباح: $${systemSettings.earningsPerTicket?.toFixed(2) || '1.00'}\n\n` +
                             `عرض لقطة الشاشة: ${ticket.screenshotUrl}`;
             
             fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
@@ -711,8 +1444,101 @@
                     chat_id: chatId,
                     text: message
                 })
-            }).catch(error => console.error('حدث خطأ أثناء إرسال الإشعار:', error));
+            }).catch(error => console.error('Error sending Telegram notification:', error));
         }
+        
+        // Helper functions
+        function formatDate(timestamp) {
+            if (!timestamp) return '-';
+            const date = timestamp.toDate();
+            return date.toLocaleString('ar-EG');
+        }
+        
+        function isToday(timestamp) {
+            if (!timestamp) return false;
+            const date = timestamp.toDate();
+            const today = new Date();
+            return date.getDate() === today.getDate() &&
+                   date.getMonth() === today.getMonth() &&
+                   date.getFullYear() === today.getFullYear();
+        }
+        
+        function getStatusText(status) {
+            const statusMap = {
+                'open': 'مفتوحة',
+                'assigned': 'مخصصة',
+                'closed': 'مغلقة'
+            };
+            return statusMap[status] || status;
+        }
+        
+        // Admin sidebar navigation
+        document.getElementById('adminDashboardLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('adminDashboard').style.display = 'block';
+            document.getElementById('adminTickets').style.display = 'none';
+            document.getElementById('adminUsers').style.display = 'none';
+            document.getElementById('adminAddTicket').style.display = 'none';
+            document.getElementById('adminSettings').style.display = 'none';
+        });
+        
+        document.getElementById('adminTicketsLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('adminDashboard').style.display = 'none';
+            document.getElementById('adminTickets').style.display = 'block';
+            document.getElementById('adminUsers').style.display = 'none';
+            document.getElementById('adminAddTicket').style.display = 'none';
+            document.getElementById('adminSettings').style.display = 'none';
+        });
+        
+        document.getElementById('adminUsersLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('adminDashboard').style.display = 'none';
+            document.getElementById('adminTickets').style.display = 'none';
+            document.getElementById('adminUsers').style.display = 'block';
+            document.getElementById('adminAddTicket').style.display = 'none';
+            document.getElementById('adminSettings').style.display = 'none';
+        });
+        
+        document.getElementById('adminAddTicketLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('adminDashboard').style.display = 'none';
+            document.getElementById('adminTickets').style.display = 'none';
+            document.getElementById('adminUsers').style.display = 'none';
+            document.getElementById('adminAddTicket').style.display = 'block';
+            document.getElementById('adminSettings').style.display = 'none';
+        });
+        
+        document.getElementById('adminSettingsLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('adminDashboard').style.display = 'none';
+            document.getElementById('adminTickets').style.display = 'none';
+            document.getElementById('adminUsers').style.display = 'none';
+            document.getElementById('adminAddTicket').style.display = 'none';
+            document.getElementById('adminSettings').style.display = 'block';
+        });
+        
+        // User sidebar navigation
+        document.getElementById('userDashboardLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('userDashboard').style.display = 'block';
+            document.getElementById('userTickets').style.display = 'none';
+            document.getElementById('userProfile').style.display = 'none';
+        });
+        
+        document.getElementById('userTicketsLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('userDashboard').style.display = 'none';
+            document.getElementById('userTickets').style.display = 'block';
+            document.getElementById('userProfile').style.display = 'none';
+        });
+        
+        document.getElementById('userProfileLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('userDashboard').style.display = 'none';
+            document.getElementById('userTickets').style.display = 'none';
+            document.getElementById('userProfile').style.display = 'block';
+        });
         
         // Profile form submission
         document.getElementById('profileForm').addEventListener('submit', (e) => {
@@ -721,6 +1547,7 @@
             const profileData = {
                 firstName: document.getElementById('profileFirstName').value,
                 lastName: document.getElementById('profileLastName').value,
+                email: document.getElementById('profileEmail').value,
                 recoveryEmail: document.getElementById('profileRecoveryEmail').value,
                 lastActive: firebase.firestore.FieldValue.serverTimestamp()
             };
@@ -768,58 +1595,42 @@
                 });
         });
         
-        // Helper functions
-        function formatDate(timestamp) {
-            if (!timestamp) return '-';
-            const date = timestamp.toDate();
-            return date.toLocaleString('ar-EG');
-        }
-        
-        // User sidebar navigation
-        document.getElementById('userDashboardLink').addEventListener('click', (e) => {
+        // Settings form submission
+        document.getElementById('settingsForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            document.getElementById('userDashboard').style.display = 'block';
-            document.getElementById('userTickets').style.display = 'none';
-            document.getElementById('userProfile').style.display = 'none';
-        });
-        
-        document.getElementById('userTicketsLink').addEventListener('click', (e) => {
-            e.preventDefault();
-            document.getElementById('userDashboard').style.display = 'none';
-            document.getElementById('userTickets').style.display = 'block';
-            document.getElementById('userProfile').style.display = 'none';
-        });
-        
-        document.getElementById('userProfileLink').addEventListener('click', (e) => {
-            e.preventDefault();
-            document.getElementById('userDashboard').style.display = 'none';
-            document.getElementById('userTickets').style.display = 'none';
-            document.getElementById('userProfile').style.display = 'block';
+            
+            const settings = {
+                telegramGroupLink: document.getElementById('telegramGroupLink').value,
+                botToken: document.getElementById('botToken').value,
+                chatId: document.getElementById('chatId').value,
+                enableNotifications: document.getElementById('enableNotifications').checked,
+                earningsPerTicket: parseFloat(document.getElementById('earningsPerTicket').value) || 1.00
+            };
+            
+            // Save settings to Firestore
+            db.collection('settings').doc('system').set(settings)
+                .then(() => {
+                    systemSettings = settings;
+                    alert('تم حفظ الإعدادات بنجاح!');
+                })
+                .catch((error) => {
+                    alert('حدث خطأ أثناء حفظ الإعدادات: ' + error.message);
+                });
         });
         
         // Check auth state on page load
         auth.onAuthStateChanged((user) => {
             if (user) {
                 currentUser = user;
-                
-                // Check if user is not admin
-                db.collection('users').doc(user.uid).get()
-                    .then((doc) => {
-                        if (doc.exists && doc.data().role !== 'admin') {
-                            // User is regular user, load user data
-                            loadUserData();
-                        } else {
-                            // User is admin, redirect to admin page
-                            window.location.href = 'admin.html';
-                        }
-                    })
-                    .catch(() => {
-                        // Error checking role, redirect to login
-                        window.location.href = 'login.html';
-                    });
+                checkUserRole(user.uid);
             } else {
-                // No user logged in, redirect to login
-                window.location.href = 'login.html';
+                loginSection.style.display = 'block';
+                adminSection.style.display = 'none';
+                userSection.style.display = 'none';
+                logoutLink.style.display = 'none';
+                adminLink.style.display = 'none';
+                userLink.style.display = 'none';
+                loginLink.style.display = 'block';
             }
         });
     </script>
